@@ -1,3 +1,4 @@
+import authRoutes from "./routes/authRoutes";
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -6,16 +7,19 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 
+
 app.use(cors());
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cookieParser());
 
-app.get("/", (req, res) => {
+app.use("/api/auth", authRoutes);
+
+app.get("/", (_req, res) => {
   res.json({
     success: true,
-    message: "EmployeeHub HRMS Backend Running 🚀",
+    message: "EmployeeHub HRMS Backend Running",
   });
 });
 
