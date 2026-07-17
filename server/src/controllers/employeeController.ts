@@ -99,3 +99,36 @@ res.status(200).json({
     });
   }
 };
+
+export const getEmployeeById = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+
+    const employee = await Employee.findById(id).populate(
+  "userId",
+  "fullName email"
+);
+if (!employee) {
+  res.status(404).json({
+    success: false,
+    message: "Employee not found",
+  });
+  return;
+}
+res.status(200).json({
+  success: true,
+  data: employee,
+});
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
