@@ -1,5 +1,6 @@
 import testRoutes from "./routes/testRoutes";
 import authRoutes from "./routes/authRoutes";
+import employeeRoutes from "./routes/employeeRoutes";
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/employees", employeeRoutes);
 app.use("/api/test", testRoutes);
 
 app.get("/", (_req, res) => {
