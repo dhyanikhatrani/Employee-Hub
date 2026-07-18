@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import User from "../models/User";
 import Employee from "../models/Employee";
 
+// Create Employee
 export const createEmployee = async (
   req: Request,
   res: Response
@@ -75,6 +76,8 @@ res.status(201).json({
   }
 };
 
+// Get all employees
+
 export const getAllEmployees = async (
   req: Request,
   res: Response
@@ -99,7 +102,7 @@ res.status(200).json({
     });
   }
 };
-
+// Get employee by ID
 export const getEmployeeById = async (
   req: Request,
   res: Response
@@ -121,6 +124,105 @@ if (!employee) {
 res.status(200).json({
   success: true,
   data: employee,
+});
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+// update employee
+export const updateEmployee = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+
+const {
+  fullName,
+  email,
+  phone,
+  address,
+  department,
+  designation,
+  joiningDate,
+  gender,
+  dateOfBirth,
+  emergencyContact,
+  status,
+} = req.body;
+const employee = await Employee.findById(id);
+if (!employee) {
+  res.status(404).json({
+    success: false,
+    message: "Employee not found",
+  });
+  return;
+}
+
+await User.findByIdAndUpdate(employee.userId, {
+  fullName,
+  email,
+});
+
+const updatedEmployee = await Employee.findByIdAndUpdate(
+  id,
+  {
+    phone,
+    address,
+    department,
+    designation,
+    joiningDate,
+    gender,
+    dateOfBirth,
+    emergencyContact,
+    status,
+  },
+  {
+    new: true,
+  }
+);
+await updatedEmployee?.populate("userId", "fullName email");
+res.status(200).json({
+  success: true,
+  message: "Employee updated successfully",
+  data: updatedEmployee,
+});
+
+  } catch (error) {
+  console.error("Update Employee Error:", error);
+
+  res.status(500).json({
+    success: false,
+    message: "Internal Server Error",
+  });
+  }
+}
+
+export const deleteEmployee = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const employee = await Employee.findById(id);
+    if (!employee) {
+  res.status(404).json({
+    success: false,
+    message: "Employee not found",
+  });
+  return;
+}
+await User.findByIdAndDelete(employee.userId);
+await Employee.findByIdAndDelete(id);
+res.status(200).json({
+  success: true,
+  message: "Employee deleted successfully",
 });
 
   } catch (error) {
