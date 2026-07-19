@@ -138,3 +138,35 @@ res.status(200).json({
     });
   }
 };
+//delete department by api
+export const deleteDepartment = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+
+const department = await Department.findById(id);
+
+if (!department) {
+  res.status(404).json({
+    success: false,
+    message: "Department not found",
+  });
+  return;
+}
+await Department.findByIdAndDelete(id);
+res.status(200).json({
+  success: true,
+  message: "Department deleted successfully",
+});
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};

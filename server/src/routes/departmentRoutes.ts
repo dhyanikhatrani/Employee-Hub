@@ -1,5 +1,5 @@
 import express from "express";
-import { createDepartment , getAllDepartments,getDepartmentById, updateDepartment,} from "../controllers/departmentController";
+import { createDepartment , getAllDepartments,getDepartmentById, updateDepartment, deleteDepartment,} from "../controllers/departmentController";
 import { protect } from "../middleware/authMiddleware";
 import { authorize } from "../middleware/roleMiddleware";
 
@@ -23,5 +23,11 @@ router.put(
   protect,
   authorize("admin", "hr"),
   updateDepartment
+);
+router.delete(
+  "/:id",
+  protect,
+  authorize("admin", "hr"),
+  deleteDepartment
 );
 export default router;
