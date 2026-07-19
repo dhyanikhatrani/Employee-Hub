@@ -1,5 +1,5 @@
 import express from "express";
-import { createDepartment , getAllDepartments,} from "../controllers/departmentController";
+import { createDepartment , getAllDepartments,getDepartmentById,} from "../controllers/departmentController";
 import { protect } from "../middleware/authMiddleware";
 import { authorize } from "../middleware/roleMiddleware";
 
@@ -11,5 +11,11 @@ router.get(
   protect,
   authorize("admin", "hr"),
   getAllDepartments
+);
+router.get(
+  "/:id",
+  protect,
+  authorize("admin", "hr"),
+  getDepartmentById
 );
 export default router;
