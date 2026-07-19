@@ -34,3 +34,24 @@ res.status(201).json({
     });
   }
 };
+// Get all departments
+export const getAllDepartments = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+const departments = await Department.find();
+res.status(200).json({
+  success: true,
+  count: departments.length,
+  data: departments,
+});
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
