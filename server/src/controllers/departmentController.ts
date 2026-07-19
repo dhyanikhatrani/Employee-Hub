@@ -83,3 +83,58 @@ res.status(200).json({
     });
   }
 };
+//update department by api
+export const updateDepartment = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+const { name, description, status } = req.body;
+const department = await Department.findById(id);
+
+if (!department) {
+  res.status(404).json({
+    success: false,
+    message: "Department not found",
+  });
+  return;
+}
+const existingDepartment = await Department.findOne({ name });
+
+if (
+  existingDepartment &&
+  existingDepartment._id.toString() !== department._id.toString()
+) {
+  res.status(400).json({
+    success: false,
+    message: "Department name already exists",
+  });
+  return;
+}
+const updatedDepartment = await Department.findByIdAndUpdate(
+  id,
+  {
+    name,
+    description,
+    status,
+  },
+  {
+    new: true,
+  }
+);
+res.status(200).json({
+  success: true,
+  message: "Department updated successfully",
+  data: updatedDepartment,
+});
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
