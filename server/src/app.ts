@@ -2,6 +2,7 @@ import testRoutes from "./routes/testRoutes";
 import authRoutes from "./routes/authRoutes";
 import employeeRoutes from "./routes/employeeRoutes";
 import departmentRoutes from "./routes/departmentRoutes";
+import attendanceRoutes from "./routes/attendanceRoutes";
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -20,6 +21,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/employees", employeeRoutes);
 app.use("/api/departments", departmentRoutes);
+app.use("/api/attendance", attendanceRoutes);
 app.use("/api/test", testRoutes);
 
 app.get("/", (_req, res) => {
