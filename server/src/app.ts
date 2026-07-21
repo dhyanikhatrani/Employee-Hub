@@ -5,6 +5,7 @@ import departmentRoutes from "./routes/departmentRoutes";
 import attendanceRoutes from "./routes/attendanceRoutes";
 import leaveRoutes from "./routes/leaveRoutes";
 import payrollRoutes from "./routes/payrollRoutes";
+import dashboardRoutes from "./routes/dashboardRoutes";
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -26,6 +27,7 @@ app.use("/api/departments", departmentRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/leaves", leaveRoutes);
 app.use("/api/payroll", payrollRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/test", testRoutes);
 
 app.get("/", (_req, res) => {
